@@ -1,6 +1,5 @@
 'use strict';
-
-let data = require('./data');
+const fetch = require('node-fetch');
 
 const express = require('express');
 const PORT = process.env.PORT || 8080;
@@ -13,8 +12,10 @@ app.get('/health', (req, res) =>
     res.json({success: true});
 })
 
-app.get('/data', (req, res) =>
+app.get('/data', async (req, res) =>
 {
+    const requestPromise = await fetch('http://www3.septa.org/hackathon/TransitViewAll/')
+    const data = await requestPromise.json()
     res.json(data);
 })
 

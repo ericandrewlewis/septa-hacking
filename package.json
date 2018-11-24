@@ -21,6 +21,7 @@
   "homepage": "https://github.com/ericandrewlewis/septa-hacking#readme",
   "dependencies": {
     "express": "^4.16.4",
+    "node-fetch": "^2.3.0",
     "nodemon": "^1.18.6",
     "r2": "^2.0.1"
   }
