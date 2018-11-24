@@ -23,7 +23,7 @@
     <div id="mapid"></div>
     <script>
         const accessToken = 'pk.eyJ1IjoiZXJpY2FuZHJld2xld2lzMSIsImEiOiJjamhqcTVwbHowMDZtMzBxcG0ybG1qenNlIn0.lLpGRZKoxuYY2KkhhKXu8A';
-        var mymap = L.map('mapid').setView([40.023491, -75.13320899999], 11);
+        var mymap = L.map('mapid');
         L.tileLayer(`https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=${accessToken}`, {
             attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
             maxZoom: 18,
@@ -31,9 +31,17 @@
             accessToken: 'your.mapbox.access.token'
         }).addTo(mymap);
 
+        const showPosition = (position) => {
+            const lat = position.coords.latitude;
+            const lon = position.coords.longitude;
+
+            mymap.setView([lat, lon], 15);
+        }
+        navigator.geolocation.getCurrentPosition(showPosition);
+
         async function main ()
         {
-            let data = await fetch('http://localhost:8080/data');
+            let data = await fetch('/data');
             let busData = await data.json();
 
             console.log(busData);
