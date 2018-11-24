@@ -31,6 +31,26 @@
             accessToken: 'your.mapbox.access.token'
         }).addTo(mymap);
 
+        async function main ()
+        {
+            let data = await fetch('http://localhost:8080/data');
+            let busData = await data.json();
+
+            console.log(busData);
+            console.log(busData.routes[0]);
+            let routes = busData.routes[0];
+            let markers = [];
+            for (let routeId in routes)
+            {
+                console.log(routes[routeId]);
+                for (let bus of routes[routeId])
+                {
+                    markers.push(L.marker([bus.lat, bus.lng]).addTo(mymap));
+                }
+            }
+        }
+
+        main()
     </script>
 </body>
 </html>
