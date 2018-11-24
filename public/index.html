@@ -61,9 +61,11 @@
                 for (let bus of routes[routeId])
                 {
                     // markers.push(L.marker([bus.lat, bus.lng]).addTo(mymap));
-                    const markerRotateAngle = (parseFloat(bus.heading) - 135);
-                    let textRotateAngle = (parseFloat(bus.heading) - 90);
-                    if (textRotateAngle > 90) textRotateAngle -= 180;
+                    const markerRotateAngle = (parseFloat(bus.heading) - 90);
+                    const heading = parseFloat(bus.heading);
+                    let textRotateAngle = 0;
+                    if (heading >= 180) textRotateAngle = 180;
+                    if (heading === 360) textRotateAngle = 0;
 
                     var myIcon = L.divIcon({
                         iconUrl: './arrow.png',
@@ -72,20 +74,14 @@
                         popupAnchor: [-3, -76],
                         className: 'arrow-' + bus.heading,
                         html: `
-                            <div>
-                                <img src="/arrow.png" width=53 height=55 style="transform: rotate(${markerRotateAngle}deg)" />
-                                <div style="color:red; font-weight: bold; transform: rotate(${textRotateAngle}deg)">${routeId}</div>
-                                <!--<div>${textRotateAngle}&deg;</div>-->
+                            <div style="transform: rotate(${markerRotateAngle}deg); position: relative">
+                                <img src="/arrow.png" width=53 height=55 />
+                                <div style="color: white; font-weight: bold; position: absolute; top: 18px; left: 11px; transform: rotate(${textRotateAngle}deg)">${routeId}</div>
                             </div>
                         `
-                        // shadowUrl: 'my-icon-shadow.png',
-                        // shadowSize: [68, 95],
-                        // shadowAnchor: [22, 94]
                     });
-                    //L.marker([50.505, 30.57], {icon: myIcon}).addTo(map);
                     markers.push(L.marker([bus.lat, bus.lng], {
                         icon: myIcon,
-                        // rotationAngle: bus.heading - 45 - 90
                     }).addTo(mymap));
                 }
             }
